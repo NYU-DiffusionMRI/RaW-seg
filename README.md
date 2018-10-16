@@ -1,6 +1,6 @@
 # Random Walker (RaW) segmentation
 
-The code implements random walker (RaW) segmentations of myelinated axons in a 3d electron microscopy (EM) data, originally developed in [Lee, et al., 2018](https://doi.org/). All functions are implemented in MATLAB and embeded into 3 classes:
+The code implements random walker (RaW) segmentations of myelinated axons in a 3d electron microscopy (EM) data, developed in [Lee, et al., 2018](https://doi.org/). All functions are implemented in MATLAB and embeded into 3 classes:
 
 * **rawseg:** Random walker segmentation for myelinated axons in a 3d EM data.
 * **analyzeseg:** Analyze segmented axons and calculate fiber orientation function (FOD), dispersion angle, axonal diameter, and g-ratio.
