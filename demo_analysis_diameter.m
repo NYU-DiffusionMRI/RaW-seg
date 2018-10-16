@@ -1,5 +1,5 @@
 % Random Walker segmentation (RaW)
-% Quantification of axonal diamters
+% Quantification of axonal diamter
 % author: Hong-Hsi Lee, 2018
 
 clear all
