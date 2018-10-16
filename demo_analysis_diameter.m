@@ -1,3 +1,7 @@
+% Random Walker segmentation (RaW)
+% Quantification of axonal diamters
+% author: Hong-Hsi Lee, 2018
+
 clear all
 root = '/data1/Hamster/Honghsi/Projects/segmentation3D/share_code';
 rootdata = fullfile(root,'data');
