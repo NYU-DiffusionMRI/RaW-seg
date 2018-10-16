@@ -17,7 +17,7 @@ The usage of the classes can be found in demo_\*.m files.
   - [Sun, et al., 2014](https://doi.org/)
   
 * **Triangulated spherical surface**
-  - [Womersley, et al., 2017] (https://doi.org/)
+  - [Womersley, et al., 2017](https://doi.org/)
 
 * **Sherical harmonics toolbox**
   - [Politis, et al., 2016](https://doi.org/)
