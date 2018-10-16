@@ -1,3 +1,7 @@
+% Random Walker segmentation (RaW)
+% Quantification of orientation dispersion
+% author: Hong-Hsi Lee, 2018
+
 clear all
 root = '/data1/Hamster/Honghsi/Projects/segmentation3D/share_code';
 rootdata = fullfile(root,'data');
@@ -257,13 +261,4 @@ end
 as = analyzeseg();
 [kappa,odi] = as.bingham(tangent);
 fprintf('By fitting FOD to Bingham distribution, ODI_1 = %.3f, ODI_2 = %.3f.\n',odi(1),odi(2))
-
-
-
-
-
-
-
-
-
 
