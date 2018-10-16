@@ -22,11 +22,9 @@ The usage of the classes can be found in demo_\*.m files.
 * **Sherical harmonics toolbox**
   - [Politis, et al., 2016](https://doi.org/)
   
-* **Bingham statistics library**
-  - https://github.com/SebastianRiedel/bingham
+* **[Bingham statistics library](https://github.com/SebastianRiedel/bingham)**
   
-* **Magicwand2**
-  - https://www.mathworks.com/matlabcentral/fileexchange/6034-magicwand2
+* **[Magicwand2](https://www.mathworks.com/matlabcentral/fileexchange/6034-magicwand2)**
 
 ## Authors
 * [Hong-Hsi Lee](http://www.diffusion-mri.com/people/hong-hsi-lee)
