@@ -9,7 +9,7 @@ The code implements random walker (RaW) segmentations of myelinated axons in a 3
 The usage of the classes can be found in demo_\*.m files.
 
 ## References
-* **Random walker (RaW) segmentation**
+* **Random walker (RaW) segmentation, quantification of orientation and diameter of axons**
   - [Lee, et al., 2018](https://doi.org/)
 
 * **Distortion correction**
