@@ -16,11 +16,12 @@ The usage of the classes can be found in demo_\*.m files.
   - [Sun, et al., IEEE CVPR, 2010](https://doi.org/10.1109/CVPR.2010.5539939)
   - [Sun, et al., IJCV, 2014](https://doi.org/10.1007/s11263-013-0644-x)
   
-* **FOD on a triangulated spherical surface**
+* **Triangulated spherical surface**
   - [Efficient spherical design](http://web.maths.unsw.edu.au/~rsw/Sphere/EffSphDes)
   - [Womersley, et al., arXiv, 2017](https://arxiv.org/abs/1709.01624)
 
-* **[Sherical harmonic transform library](https://www.mathworks.com/matlabcentral/fileexchange/43856-real-complex-spherical-harmonic-transform-gaunt-coefficients-and-rotations)**
+* **Spherical harmonics**
+  -[Spherical harmonic transform library](https://www.mathworks.com/matlabcentral/fileexchange/43856-real-complex-spherical-harmonic-transform-gaunt-coefficients-and-rotations)
   - [Politis, et al., 2016](https://aaltodoc.aalto.fi/handle/123456789/22499)
   
 * **[Bingham statistics library](https://github.com/SebastianRiedel/bingham)**
