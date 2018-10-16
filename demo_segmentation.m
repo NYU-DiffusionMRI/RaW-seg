@@ -20,7 +20,6 @@ data = data.data(:,:,1:200);
 %   data: EM data
 %   seed: seeding positions. It is in the same size of the data. You need
 %     to apply a few seeds in the background for each slice.
-% Please cite:
 rs = rawseg();
 seed = false(size(data));
 seed(:,1,:) = true;  % apply a few seeds in the background
@@ -34,7 +33,6 @@ save(fullfile(target_proc,'foregroundmask.mat'),'mask')
 %   I: the slice with distortion
 %   ccf: correlation coefficient btw distorted slice and its interpolation
 %   maskc: corrected mask
-% Please cite:
 [datac,Ic,ccf,maskc] = rs.distortioncorrect(data,mask);
 save(fullfile(target_proc,'dataDistortionCorrect.mat'),'datac','Ic','ccf','maskc')
 save(fullfile(rootdata,'foregroundmaskDistortionCorrect.mat'),'maskc');
@@ -42,13 +40,6 @@ save(fullfile(rootdata,'foregroundmaskDistortionCorrect.mat'),'maskc');
 % Step 3. Use pixel-wise classifier (e.g., ilastik) to create the myelin
 % mask. You may need to save datac into hdf5 format before using the
 % classifier.
-% Please cite:
-%
-% Here, we also provide an alternative way to create the myelin mask. By
-% fitting the intensity histogram with two Gaussian components, we can
-% specifyt the low intentisy component as the myelin. This method would
-% give you many flase positive voxels, but it is still fine for RaW.
-% Please cite:
 
 %% RaW Segmentation
 
