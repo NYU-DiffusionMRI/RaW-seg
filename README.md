@@ -18,7 +18,7 @@ The usage of the classes can be found in demo_\*.m files.
   
 * **Triangulated spherical surface**
   - [Efficient spherical design](http://web.maths.unsw.edu.au/~rsw/Sphere/EffSphDes)
-  - [Womersley, et al., arXiv, 2017](https://arxiv.org/abs/1709.01624)
+  - [Womersley, Contemporary Computational Mathematics, 2018](https://doi.org/10.1007/978-3-319-72456-0_57)
 
 * **Spherical harmonics**
   - [Spherical harmonic transform library](https://www.mathworks.com/matlabcentral/fileexchange/43856-real-complex-spherical-harmonic-transform-gaunt-coefficients-and-rotations)
