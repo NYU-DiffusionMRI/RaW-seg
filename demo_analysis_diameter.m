@@ -21,9 +21,9 @@ load(fullfile(target,'myelinsheath.mat'))
 %% Diameter variation along each fiber
 clear fb
 as = analyzeseg();
-vox = [100 100 100]*1e-3;  % voxel size, µm
-sigma = 1;  % smoothing kernel width to smooth the skeleton, µm
-diametermax = 10;  % The possible maximal diameter, µm
+vox = [100 100 100]*1e-3;  % voxel size (micron)
+sigma = 1;  % smoothing kernel width to smooth the skeleton (micron)
+diametermax = 10;  % The possible maximal diameter (micron)
 tic;
 parfor i = 1:numel(I)
     fiber = fiberfill == I(i);
@@ -36,11 +36,11 @@ save(fullfile(target,'diameter.mat'),'fb');
 
 %% Simulate the time-dependence of diameter
 load(fullfile(target,'diameter.mat'))
-vox = [100 100 100]*1e-3;  % voxel size, µm
-t = 1:100;              % diffusion time
-D = 2;                  % intrinsic diffusivity
-sigma = sqrt(D*t/2);    % smoothing kernel width
-cutlength = 1;          % truncate 1 µm at both ends
+vox = [100 100 100]*1e-3;  % voxel size (micron)
+t = 1:100;              % diffusion time (ms)
+D = 2;                  % intrinsic diffusivity (micron^2/ms)
+sigma = sqrt(D*t/2);    % smoothing kernel width (micron)
+cutlength = 1;          % truncate 1 micron at both ends
 
 as = analyzeseg();
 dhist = zeros(numel(t),1);
@@ -59,11 +59,11 @@ save(fullfile(target,'diameter_time_dependence.mat'),'t','dhist','dmri');
 %% Plot diameter variation along each fiber
 load(fullfile(target,'diameter.mat'));
 
-vox = [100 100 100]*1e-3;  % voxel size, µm
-t = [1 10 100];         % diffusion time
-D = 2;                  % intrinsic diffusivity
-sigma = sqrt(D*t/2);    % smoothing kernel width
-cutlength = 1;          % truncate 1 µm at both ends
+vox = [100 100 100]*1e-3;  % voxel size (micron)
+t = [1 10 100];         % diffusion time (ms)
+D = 2;                  % intrinsic diffusivity (micron^2/ms)
+sigma = sqrt(D*t/2);    % smoothing kernel width (micron)
+cutlength = 1;          % truncate 1 micron at both ends
 
 as = analyzeseg();
 figure('unit','inch','position',[0 0 16 10])
@@ -125,8 +125,8 @@ savefig(fullfile(target,'diameter','diameter_time_dependence.fig'))
 
 %% Report size-related metrics in different definitions
 load(fullfile(target,'diameter.mat'))
-vox = [100 100 100]*1e-3;  % voxel size, µm
-cutlength = 1;             % truncate 1 µm at both ends
+vox = [100 100 100]*1e-3;  % voxel size (micron)
+cutlength = 1;             % truncate 1 micron at both ends
 cutnum = ceil(cutlength/vox(3));
 diameter = [];
 shortaxis = [];

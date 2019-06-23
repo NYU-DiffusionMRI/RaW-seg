@@ -1,6 +1,9 @@
 % Random Walker segmentation (RaW)
 % author: Hong-Hsi Lee, 2018
-% Step 1: Segmentation
+% Step 1: Intra-axonal space (IAS) Segmentation
+% You can skip this demo if you just want to download the processed data
+% and the IAS segmentation:
+% http://cai2r.net/resources/software/intra-axonal-space-segmented-3d-scanning-electron-microscopy-mouse-brain-genu
 
 clear
 
@@ -9,6 +12,7 @@ root = '.';
 
 % Setup other directories
 rootdata = fullfile(root,'data');
+unzip(fullfile(root,'tools','flow_code.zip'),fullfile(root,'tools'));
 addpath(genpath(fullfile(root,'tools')));
 addpath(genpath(fullfile(root,'lib')));
 target = fullfile(root,'result'); mkdir(target);
@@ -17,9 +21,9 @@ target = fullfile(root,'result'); mkdir(target);
 % You can process your data using this section. You do not need to run this
 % section for the demo.
 
+% Setup your directory, remember to change the file name
 target_proc = fullfile(root,'processed'); mkdir(target_proc)
-data = load('/data1/Hamster/Honghsi/Projects/segmentation3D/allData.mat');
-data = data.data(:,:,1:200);
+data = niftiread(fullfile(target,'your_data_file_name.nii'));
 
 % Step 1. Use magicwand to create foreground mask
 % Input:
@@ -28,7 +32,8 @@ data = data.data(:,:,1:200);
 %     to apply a few seeds in the background for each slice.
 rs = rawseg();
 seed = false(size(data));
-seed(:,1,:) = true;  % apply a few seeds in the background
+% Apply a few seeds in the background, remember to change it if necessary
+seed(:,1,:) = true;  
 mask = rs.magicwand(data,seed);
 save(fullfile(target_proc,'foregroundmask.mat'),'mask')
 
@@ -36,7 +41,7 @@ save(fullfile(target_proc,'foregroundmask.mat'),'mask')
 % Input: EM data and foreground mask
 % Output:
 %   datac: corrected data
-%   I: the slice with distortion
+%   Ic: the slice index with distortion
 %   ccf: correlation coefficient btw distorted slice and its interpolation
 %   maskc: corrected mask
 [datac,Ic,ccf,maskc] = rs.distortioncorrect(data,mask);
@@ -46,6 +51,7 @@ save(fullfile(rootdata,'foregroundmaskDistortionCorrect.mat'),'maskc');
 % Step 3. Use pixel-wise classifier (e.g., ilastik) to create the myelin
 % mask. You may need to save datac into hdf5 format before using the
 % classifier.
+hdf5write('dataDistortionCorrect.h5',target_proc,uint16(datac));
 
 %% RaW Segmentation
 
@@ -56,14 +62,15 @@ maskmy = maskmy.mask;
 % Load background mask
 maskfg = load(fullfile(rootdata,'foregroundmaskDistortionCorrect.mat'));
 maskbg = ~maskfg.maskc;
-% Dilate backgound mask to avoid edge effect
+% Dilate backgound mask to avoid edge effect, remember to change the kernel
+% size if necessary.
 maskbg = imdilate(maskbg,strel('cuboid',[15,15,1]));
 
 % Combine two masks to create medium for RaW segmentation
 medium = logical(maskmy + maskbg);
 save(fullfile(target,'medium.mat'),'medium')
 
-% Load seeding positions. You have to do it manually.
+% Load seeding positions. You have to assign them manually for your data.
 seed = load(fullfile(rootdata,'seed.mat'));
 seed = seed.seed;
 
@@ -82,7 +89,7 @@ toc;
 
 %% The first proofreading
 % Check the file size: The fiber with leaky myelin mask has larger volume,
-% which is proportional to the file size.
+% which is proportional to the file size of the .mat file.
 files = dir(fullfile(target,'step1_randomhopping','fiber*.mat'));
 C = struct2cell(files);
 filesize = cell2mat(C(4,:));
@@ -91,6 +98,8 @@ figure; hist(filesize,100);  % histogram shows that files < 3 MB are good
 xlabel('file size (MB)'); ylabel('frequency')
 I = [];
 for i = 1:numel(files)
+    % The chosen threshold of the file size is 3 MB, remember to change it
+    % if necessary.
     if filesize(i) < 3
         filename = files(i).name;
         Ii = str2double(filename(6:end-4));
@@ -150,7 +159,7 @@ for i = 1:nfig
 end
 
 % After proofreading the fiber shape, we noticed that fiber 1 = fiber 7,
-% fiber 2 = fiber 9, and fiber 292 and 322 are bizarre.
+% fiber 2 = fiber 9, and fiber 292 and 322 are bizarre in our data.
 I = setdiff(I,[7,9,292,322]);
 save(fullfile(target,'proofread2_fiberlabel.mat'),'I')
 
@@ -189,7 +198,7 @@ end
 load(fullfile(target,'fibers.mat'))
 load(fullfile(target,'proofread2_fiberlabel.mat'))
 
-vox = [24,24,100]*1e-3;  % voxel size, µm
+vox = [24,24,100]*1e-3;  % voxel size (micron)
 rs = rawseg();
 fiberiso = rs.resize(fibers,vox);
 
@@ -208,9 +217,9 @@ load(fullfile(target,'fiberfill.mat'))
 rs = rawseg();
 L = rs.watershed(fiberfill);
 save(fullfile(target,'watershed.mat'),'L')
-%%
+
 % Dilate IAS and segment individual myelin sheath
-vox = [24,24,100]*1e-3;  % voxel size, µm
+vox = [24,24,100]*1e-3;  % voxel size (micron)
 rs = rawseg();
 maskmy = load(fullfile(rootdata,'myelinmask.mat')); 
 maskmy = rs.resize(single(maskmy.mask),vox) > 0.5;
@@ -221,14 +230,14 @@ load(fullfile(target,'fiberfill.mat'))
 load(fullfile(target,'proofread2_fiberlabel.mat'))
 load(fullfile(target,'watershed.mat'))
 
-vox = [100,100,100]*1e-3;  % voxel size, µm
-myelinmax = 0.4;           % maximal myelin thickness, µm
+vox = [100,100,100]*1e-3;  % voxel size (micron)
+myelinmax = 0.4;           % maximal myelin thickness (micron)
 
 rs = rawseg();
 myelins = rs.myelinsheath(fiberfill,I,L,maskmy,maskfg,myelinmax,vox);
 save(fullfile(target,'myelinsheath.mat'),'myelins');
 
-%%
+%% Save the IAS segmentation into a nifti file
 addpath(genpath('/data1/Hamster/Honghsi/Projects/segmentation3D/tools/NIfTI_tool'))
 nii = make_nii(uint16(fibers),[24,24,100]*1e-3,[],4);
 save_nii(nii,fullfile(root,'processed','fibers.nii'));
