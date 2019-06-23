@@ -1,15 +1,21 @@
 % Random Walker segmentation (RaW)
 % author: Hong-Hsi Lee, 2018
+% Step 1: Segmentation
 
-clear all
-root = '/data1/Hamster/Honghsi/Projects/segmentation3D/share_code';
+clear
+
+% Setup your directory, remember to change it if necessary
+root = '.';
+
+% Setup other directories
 rootdata = fullfile(root,'data');
 addpath(genpath(fullfile(root,'tools')));
 addpath(genpath(fullfile(root,'lib')));
 target = fullfile(root,'result'); mkdir(target);
 
 %% Calculate foreground mask and correct mild distortion
-% You need to download our EM images to run this section.
+% You can process your data using this section. You do not need to run this
+% section for the demo.
 
 target_proc = fullfile(root,'processed'); mkdir(target_proc)
 data = load('/data1/Hamster/Honghsi/Projects/segmentation3D/allData.mat');

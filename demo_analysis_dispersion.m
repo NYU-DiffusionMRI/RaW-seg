@@ -2,8 +2,12 @@
 % Quantification of orientation dispersion
 % author: Hong-Hsi Lee, 2018
 
-clear all
-root = '/data1/Hamster/Honghsi/Projects/segmentation3D/share_code';
+clear
+
+% Setup your directory, remember to change it if necessary
+root = '.';
+
+% Setup other directories
 rootdata = fullfile(root,'data');
 addpath(genpath(fullfile(root,'tools')));
 addpath(genpath(fullfile(root,'lib')));
