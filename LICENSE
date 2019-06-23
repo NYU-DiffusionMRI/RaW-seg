@@ -14,13 +14,23 @@ right or licenses under any patents or patent application owned by NYU.
 5. The Software may only be used for non-commercial research and may not be used for clinical care.
 6. Any publication by Recipient of research involving the Software shall cite the references listed below.
 
-**Monte Carlo simulation**
-Fieremans, et al., NMR Biomed, 2010 (https://doi.org/10.1002/nbm.1577)
-Novikov, et al., Nature Physics, 2011 (https://doi.org/10.1038/nphys1936)
-Fieremans and Lee, NeuroImage 2018 (https://doi.org/10.1016/j.neuroimage.2018.06.046)
+**Random walker (RaW) segmentation, quantification of orientation and diameter of axons**
+Lee, et al., Brain Struct Funct, 2019 (https://doi.org/10.1007/s00429-019-01844-6)
 
-**Random packing generation**
-Donev, et al., J Comput Phys, 2005 (https://doi.org/10.1016/j.jcp.2004.08.014)
+**Distortion correction**
+Sun, et al., IEEE CVPR, 2010 (https://doi.org/10.1109/CVPR.2010.5539939)
+Sun, et al., IJCV, 2014 (https://doi.org/10.1007/s11263-013-0644-x)
+  
+**Triangulated spherical surface**
+Efficient spherical design (http://web.maths.unsw.edu.au/~rsw/Sphere/EffSphDes)
+Womersley, Contemporary Computational Mathematics, 2018 (https://doi.org/10.1007/978-3-319-72456-0_57)
 
-**Axonal diameter histogram in corpus callosum**
-Aboitiz, et al., Brain Research, 1992 (https://doi.org/10.1016/0006-8993(92)90178-C)
+**Spherical harmonics**
+Spherical harmonic transform library (https://www.mathworks.com/matlabcentral/fileexchange/43856-real-complex-spherical-harmonic-transform-gaunt-coefficients-and-rotations)
+Politis, et al., 2016 (https://aaltodoc.aalto.fi/handle/123456789/22499)
+  
+**Bingham statistics library**
+(https://github.com/SebastianRiedel/bingham)**
+  
+**Magicwand2**
+(https://www.mathworks.com/matlabcentral/fileexchange/6034-magicwand2)**
