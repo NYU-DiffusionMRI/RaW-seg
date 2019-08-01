@@ -8,6 +8,8 @@ The code implements random walker (RaW) segmentations of myelinated axons in 3d 
 
 The usage of the classes can be found in demo_\*.m files.
 
+The EM data and axon segmentation can be downloaded [here](http://cai2r.net/resources/software/intra-axonal-space-segmented-3d-scanning-electron-microscopy-mouse-brain-genu).
+
 ## References
 * **Random walker (RaW) segmentation, quantification of orientation and diameter of axons**
   - [Lee, et al., Brain Struct Funct, 2019](https://doi.org/10.1007/s00429-019-01844-6)
