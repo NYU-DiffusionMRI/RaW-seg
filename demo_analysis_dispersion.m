@@ -2,9 +2,15 @@
 % Quantification of orientation dispersion
 % author: Hong-Hsi Lee, 2018
 
-clear all
-root = '/data1/Hamster/Honghsi/Projects/segmentation3D/share_code';
+clear
+
+% Setup your directory, remember to change it if necessary
+root = '.';
+
+% Setup other directories
 rootdata = fullfile(root,'data');
+unzip(fullfile(root,'tools','bingham.zip'),fullfile(root,'tools'));
+unzip(fullfile(root,'tools','polarch_SHT.zip'),fullfile(root,'tools'));
 addpath(genpath(fullfile(root,'tools')));
 addpath(genpath(fullfile(root,'lib')));
 target = fullfile(root,'result'); mkdir(target);
@@ -15,7 +21,7 @@ load(fullfile(target,'fibers.mat'))
 load(fullfile(target,'proofread2_fiberlabel.mat'))
 
 % Calculate fiber skeleton
-vox = [24,24,100]*1e-3;  % voxel size of the EM image, µm
+vox = [24,24,100]*1e-3;  % voxel size of the EM image (micron)
 [nx,ny,~] = size(fibers);
 skeleton = struct([]);
 as = analyzeseg();
@@ -28,10 +34,10 @@ save(fullfile(target,'skeleton.mat'),'skeleton')
 
 %% Plot time-dependence of the fiber skeleton
 load(fullfile(target,'skeleton.mat'))
-vox = [24,24,100]*1e-3;  % voxel size of the EM image, µm
-t = [1,10,100];          % diffusion time
-D = 2;                   % intrinsic diffusivity
-sigma = sqrt(D*t/2);     % smoothing kernel width
+vox = [24,24,100]*1e-3;  % voxel size of the EM image (micron)
+t = [1,10,100];          % diffusion time (ms)
+D = 2;                   % intrinsic diffusivity (micron^2/ms)
+sigma = sqrt(D*t/2);     % smoothing kernel width (micron)
 as = analyzeseg();
 fod = struct([]);
 for i = 1:numel(t)
@@ -67,7 +73,7 @@ for i = 1:numel(t)
 end
 
 % Decompose FOD by using spherical harmonics and plot the 3D glyph
-nord = 10;  % order of spherical harmonics
+nord = 10;  % highest order of spherical harmonics
 as = analyzeseg();
 for i = 1:numel(t)
     figure('unit','inch','position',[0 0 10 10])
@@ -77,12 +83,13 @@ for i = 1:numel(t)
     pause(1)
     savefig(fullfile(target,'FOD',sprintf('glyph_sht_t=%ums.fig',t(i))))
 end
-%%
+%% Plot 2D and 3D dispersion angles azimuthally
 mkdir(fullfile(target,'dispersionangle'))
-% Dispersion angle calculated by projecting fiber segments to 2d planes
+% Dispersion angle calculated by projecting 3d fiber segments to a 2d plane
+% parallel to the main direction
 figure('unit','inch','position',[0 0 4.5 4.5]); hold on
 nphi = 30;  % # azimuthal angles
-t = [1,10,100];  % diffusion time
+t = [1,10,100];  % diffusion time (ms)
 as = analyzeseg();
 h = gobjects(3,1); lgdtext = strings(3,1);
 for i = 1:numel(t)
@@ -107,7 +114,7 @@ savefig(fullfile(target,'dispersionangle','theta2D_vs_phi_3times.fig'))
 % Dispersion angle of 3d fiber segments
 figure('unit','inch','position',[0 0 4.5 4.5]); hold on
 nphi = 30;  % # azimuthal angles
-t = [1,10,100];  % diffusion time
+t = [1,10,100];  % diffusion time (ms)
 as = analyzeseg();
 h = gobjects(3,1); lgdtext = strings(3,1);
 for i = 1:numel(t)
@@ -129,12 +136,11 @@ pbaspect([1 1 1]); box on; grid on
 legend(h,lgdtext,'interpreter','latex','fontsize',12,'location','southwest')
 savefig(fullfile(target,'dispersionangle','thetaMR_vs_phi_3times.fig'))
 
-%%
-% Calculate time-dependent dispersion angles and rotational invariants
-vox = [24,24,100]*1e-3; % voxel size of the EM image, µm
-t = 1:100;              % diffusion time
-D = 2;                  % intrinsic diffusivity
-sigma = sqrt(D*t/2);    % smoothing kernel width
+%% Calculate time-dependent dispersion angles and rotational invariants
+vox = [24,24,100]*1e-3; % voxel size of the EM image (micron)
+t = 1:100;              % diffusion time (ms)
+D = 2;                  % intrinsic diffusivity (micron^2/ms)
+sigma = sqrt(D*t/2);    % smoothing kernel width (micron)
 nord = 10;
 dispang2d = zeros(numel(t),1);
 dispang3d = zeros(numel(t),1);
@@ -160,9 +166,9 @@ toc;
 save(fullfile(target,'FOD','dispang_rotinv_time_dependence.mat'),...
     'dispang2d','dispang3d','dispangp2','pl','t');
 
-%%
+%% Plot time-dependent dispersion angles and rotational invariants
 load(fullfile(target,'FOD','dispang_rotinv_time_dependence.mat'))
-% Plot time-dependent rotational invariants
+% Plot time-dependent rotational invariants p_l, l = 2,4,6
 figure('unit','inch','position',[0 0 4.5 4.5]); hold on
 as = analyzeseg();
 h = gobjects(3,1); lgdtext = strings(3,1);
@@ -205,8 +211,7 @@ pbaspect([1 1 1]); box on; grid on
 legend(h,lgdtext,'interpreter','latex','fontsize',16,'location','east')
 savefig(fullfile(target,'dispersionangle','theta_eff_p2_2d_vs_diffusiontime.fig'))
 
-%%
-% Plot time-dependent rotational invariants wrt order l
+% Plot time-dependent rotational invariants p_l wrt order l
 figure('unit','inch','position',[0 0 4.5 4.5]); hold on
 as = analyzeseg();
 h = gobjects(3,1); lgdtext = strings(3,1);
@@ -246,13 +251,12 @@ pbaspect([1 1 1]); box on; grid on
 legend(h,lgdtext,'interpreter','latex','fontsize',16,'location','east')
 savefig(fullfile(target,'dispersionangle','power-law-dispersion-parameters.fig'))
 
-%%
-% Calculate orientation dispersion index, defined by Bingham distribution
+%% Calculate orientation dispersion index, defined by Bingham distribution
 load(fullfile(target,'skeleton.mat'))
-vox = [24,24,100]*1e-3; % voxel size of the EM image, µm
-t = 1;                  % diffusion time
-D = 2;                  % intrinsic diffusivity
-sigma = sqrt(D*t/2);    % smoothing kernel width
+vox = [24,24,100]*1e-3; % voxel size of the EM image (micron)
+t = 1;                  % diffusion time (ms)
+D = 2;                  % intrinsic diffusivity (micron^2/ms)
+sigma = sqrt(D*t/2);    % smoothing kernel width (micron)
 tangent = [];
 for i = 1:numel(skeleton)
    [tg,~] = as.smoothtangent(skeleton(i).cm,sigma,vox(3));
