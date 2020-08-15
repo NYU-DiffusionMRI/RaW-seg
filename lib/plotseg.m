@@ -77,9 +77,13 @@ classdef plotseg < handle
             camva;
         end
         
-        function TR = bw2triangulation(BW)
+        function TR = bw2triangulation(BW,varargin)
+            sf = 0.95;
+            if nargin >1
+                sf = varargin{1};
+            end
             [I,J,K] = ind2sub(size(BW),find(BW));
-            [k,~] = boundary(I,J,K,0.95);
+            [k,~] = boundary(I,J,K,sf);
             TR = triangulation(k,I,J,K);
         end
     end
