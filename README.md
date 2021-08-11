@@ -19,7 +19,7 @@ The EM data and axon segmentation can be downloaded [here](http://cai2r.net/reso
   - [Sun, et al., IJCV, 2014](https://doi.org/10.1007/s11263-013-0644-x)
   
 * **Triangulated spherical surface**
-  - [Efficient spherical design](http://web.maths.unsw.edu.au/~rsw/Sphere/EffSphDes)
+  - [Efficient spherical design](https://web.maths.unsw.edu.au/~rsw/Sphere/EffSphDes/)
   - [Womersley, Contemporary Computational Mathematics, 2018](https://doi.org/10.1007/978-3-319-72456-0_57)
 
 * **Spherical harmonics**
